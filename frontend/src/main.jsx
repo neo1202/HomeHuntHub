@@ -14,12 +14,6 @@ import ManageCatalogue from "./pages/ManageCatalogue";
 import Movies from "./pages/Movies";
 import Movie from "./pages/Movie";
 
-ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <RouterProvider router={router} />
-  </React.StrictMode>
-);
-
 const router = createBrowserRouter([
   {
     path: "/",
@@ -58,3 +52,9 @@ const router = createBrowserRouter([
     ],
   },
 ]);
+
+ReactDOM.createRoot(document.getElementById("root")).render(
+  <React.StrictMode>
+    <RouterProvider router={router} />
+  </React.StrictMode>
+);
