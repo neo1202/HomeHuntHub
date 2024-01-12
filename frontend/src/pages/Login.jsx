@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate, useOutletContext } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom"; //useOutletContext：用于向子route传递context；
 import Input from "../components/form/Input";
 
 const Login = () => {
