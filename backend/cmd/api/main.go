@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"log"
 	"net/http"
@@ -9,6 +10,7 @@ import (
 const port = 8080
 
 type application struct {
+	DSN    string
 	Domain string
 }
 
@@ -16,8 +18,9 @@ func main() {
 	// set application config
 	var app application
 
-	// read from command line
-
+	// read from command line. flag可以讓你指定你的db位置, DSN就是指出postgres之位置
+	flag.StringVar(&app.DSN, "dsn", "host=localhost port=5432 user=postgres password=postgres dbname=movies sslmode=disable timezone=UTC connect_timeout=5", "Postgres connection string")
+	flag.Parse()
 	// connect to the database
 
 	app.Domain = "example.com"
