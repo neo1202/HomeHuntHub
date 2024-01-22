@@ -1,7 +1,8 @@
 package main
 
 import (
-	"database/sql"
+	"backend/internal/repository"
+	"backend/internal/repository/dbrepo"
 	"flag"
 	"fmt"
 	"log"
@@ -13,7 +14,8 @@ const port = 8080
 type application struct {
 	DSN    string
 	Domain string
-	DB     *sql.DB
+	// DB     *sql.DB
+	DB repository.DatabaseRepo
 }
 
 func main() {
@@ -29,8 +31,10 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	app.DB = conn
-	defer app.DB.Close() //確認釋放資源當main結束
+	app.DB = &dbrepo.PostgresDBRepo{DB: conn}
+	//初始化這個struct時,把conn傳過去,那邊收到的是conn的位置
+	//所以可以直接conn.Close, 他們使用的是同一個conn  ->defer conn.Close() 
+	defer app.DB.Connection().Close() //確認釋放資源當main結束 //Connection是我們自訂的函式
 
 	app.Domain = "example.com"
 
