@@ -1,3 +1,5 @@
+// 實際內容物display在Outlet
+// router中的Link使得不用每次刷新整個頁面
 import { useState } from "react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import Alert from "./pages/Alert";

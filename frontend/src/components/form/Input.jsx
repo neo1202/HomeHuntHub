@@ -1,4 +1,6 @@
+/* eslint-disable react/display-name */
 import { forwardRef } from "react";
+import PropTypes from "prop-types";
 
 const Input = forwardRef((props, ref) => {
   return (
@@ -21,5 +23,18 @@ const Input = forwardRef((props, ref) => {
     </div>
   );
 });
+
+Input.propTypes = {
+  name: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  type: PropTypes.string,
+  className: PropTypes.string,
+  placeholder: PropTypes.string,
+  onChange: PropTypes.func,
+  autoComplete: PropTypes.string,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  errorDiv: PropTypes.string,
+  errorMsg: PropTypes.string,
+};
 
 export default Input;
