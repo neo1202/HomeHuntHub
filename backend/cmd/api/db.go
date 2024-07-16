@@ -1,5 +1,5 @@
 package main
-
+// -代表就算沒用到以下的import你也要import來
 import (
 	"database/sql"
 	"log"
@@ -12,6 +12,7 @@ import (
 //假如未來某天想不只開一種db如+mongo, 可以讓connectToDB收到一個param並且在openDB裡面開另一個db
 //這樣的話也要在repository/dbrepo底下平行加入一個mongo_dbrepo.go
 func openDB(dsn string) (*sql.DB, error) {
+	// driver name / connection string
 	db, err := sql.Open("pgx", dsn)
 	if err != nil {
 		return nil, err

@@ -41,6 +41,7 @@ func main() {
 	log.Println("Starting application on port", port)
 
 	// start a web server
+	// 第一個參數是string(8080) of port, 第二個是handler
 	err = http.ListenAndServe(fmt.Sprintf(":%d", port), app.routes())
 	if err != nil {
 		log.Fatal(err)

@@ -1,7 +1,7 @@
 package main
 
 import "net/http"
-
+// 用於更動這個handler request
 func (app *application) enableCORS(h http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Access-Control-Allow-Origin", "http://localhost:5173")

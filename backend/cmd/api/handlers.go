@@ -1,73 +1,38 @@
 package main
 
 import (
-	"backend/internal/models"
-	"encoding/json"
-	"fmt"
 	"net/http"
-	"time"
 )
 
+// 加入前方application當作receiver可以使這個func能夠調用他裡面所有的內容
+// 當有人一開始進如我們的網頁 "/" 我們要回傳他的狀態
 func (app *application) Home(w http.ResponseWriter, r *http.Request) {
 	var payload = struct {
-		Status string `json:"status"`
+		Status  string `json:"status"`
 		Message string `json:"message"`
 		Version string `json:"version"`
 	}{
-		Status: "active",
+		Status:  "active",
 		Message: "Go Movies up and running",
 		Version: "1.0.0",
 	}
+	// 藉由寫util writeJSON可以把以下輝自轉化成下面那一行app.writeJSON
+	// out, err := json.Marshal(payload)
+	// if err != nil {
+	// 	fmt.Println(err)
+	// }
 
-	out, err := json.Marshal(payload)
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
-	w.Write(out)
+	// w.Header().Set("Content-Type", "application/json")
+	// w.WriteHeader(http.StatusOK)
+	// w.Write(out)
+	_ = app.writeJSON(w, http.StatusOK, payload)
 }
 
 func (app *application) AllMovies(w http.ResponseWriter, r *http.Request) {
-	var movies []models.Movie
-
-	rd, _ := time.Parse("2006-01-02", "1986-03-07")
-
-	highlander := models.Movie {
-		ID: 1,
-		Title: "Highlander",
-		ReleaseDate: rd,
-		MPAARating: "R",
-		RunTime: 116,
-		Description: "A very nice movie",
-		CreatedAt: time.Now(),
-		UpdatedAt: time.Now(),
-	}
-
-	movies = append(movies, highlander)
-
-	rd, _ = time.Parse("2006-01-02", "1981-06-12")
-
-	rotla := models.Movie {
-		ID: 2,
-		Title: "Raiders of the Lost Ark",
-		ReleaseDate: rd,
-		MPAARating: "PG-13",
-		RunTime: 115,
-		Description: "Another very nice movie",
-		CreatedAt: time.Now(),
-		UpdatedAt: time.Now(),
-	}
-
-	movies = append(movies, rotla)
-
-	out, err := json.Marshal(movies)
+	movies, err := app.DB.AllMovies()
 	if err != nil {
-		fmt.Println(err)
+		app.errorJSON(w, err)
+		return
 	}
-
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
-	w.Write(out)
+	_ = app.writeJSON(w, http.StatusOK, movies) //movies為Payload
 }
