@@ -2,6 +2,7 @@ package models
 
 import "time"
 
+// 最後兩個希望ignore
 type Movie struct {
 	ID           int       `json:"id"`
 	Title        string    `json:"title"`

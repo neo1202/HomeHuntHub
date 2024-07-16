@@ -28,6 +28,7 @@ func (m *PostgresDBRepo) AllMovies() ([]*models.Movie, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), dbTimeout)
 	defer cancel()
 	//golang很討厭null value
+	//coalesce可以讓如果沒找到返回空字串
 	query := `
 		select
 			id,title,release_date,runtime,
