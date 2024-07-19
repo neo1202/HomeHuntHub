@@ -15,18 +15,40 @@ const Login = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log("email/pass", email, password);
-
-    if (email === "neowuhuayo@gmail.com") {
-      setJwtToken("abc");
-      setAlertClassName("hidden");
-      setAlertMessage("");
-      navigate("/");
-    } else {
-      setAlertClassName(
-        "bg-red-500 text-white p-4 rounded border border-red-700"
-      );
-      setAlertMessage("Invalid credentials");
-    }
+    // build the request payload
+    let payload = {
+      email: email,
+      password: password,
+    };
+    const requestOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify(payload),
+    };
+    fetch(`/api/authenticate`, requestOptions)
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.error) {
+          setAlertClassName(
+            "bg-red-500 text-white p-4 rounded border border-red-700"
+          );
+          setAlertMessage(data.message);
+        } else {
+          setJwtToken(data.access_token);
+          setAlertClassName("hidden");
+          setAlertMessage("");
+          navigate("/");
+        }
+      })
+      .catch((error) => {
+        setAlertClassName(
+          "bg-red-500 text-white p-4 rounded border border-red-700"
+        );
+        setAlertMessage(error);
+      });
   };
 
   return (
